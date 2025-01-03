@@ -18,26 +18,7 @@ namespace HarmonyLib
 	{
 #if NET5_0_OR_GREATER
 		static readonly JsonSerializerOptions serializerOptions = new() { IncludeFields = true };
-		internal static bool? useBinaryFormatter = null;
-		internal static bool UseBinaryFormatter
-		{
-			get
-			{
-				if (!useBinaryFormatter.HasValue)
-				{
-					// https://github.com/dotnet/runtime/blob/208e377a5329ad6eb1db5e5fb9d4590fa50beadd/src/libraries/System.Runtime.Serialization.Formatters/src/System/Runtime/Serialization/LocalAppContextSwitches.cs#L14
-					var hasSwitch = AppContext.TryGetSwitch("System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization", out var isEnabled);
-					if (hasSwitch)
-						useBinaryFormatter = isEnabled;
-					else
-					{
-						// Default true, in line with Microsoft - https://github.com/dotnet/runtime/blob/208e377a5329ad6eb1db5e5fb9d4590fa50beadd/src/libraries/Common/src/System/LocalAppContextSwitches.Common.cs#L54
-						useBinaryFormatter = true;
-					}
-				}
-				return useBinaryFormatter.Value;
-			}
-		}
+		internal static bool UseBinaryFormatter => false;
 #endif
 
 		class Binder : SerializationBinder
